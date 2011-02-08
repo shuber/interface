@@ -1,5 +1,5 @@
 require 'date'
-require 'interface/version'
+require 'lib/interface/version'
 
 Gem::Specification.new do |s| 
   s.name    = 'interface'
