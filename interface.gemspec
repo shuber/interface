@@ -2,7 +2,7 @@ require 'date'
 require 'lib/interface/version'
 
 Gem::Specification.new do |s| 
-  s.name    = 'interface'
+  s.name    = 'shuber-interface'
   s.version = Interface::Version.string
   s.date    = Date.today.to_s
 
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     lib/interface.rb
     lib/interface/abstract.rb
     lib/interface/version.rb
+    lib/shuber-interface.rb
     MIT-LICENSE
     Rakefile
     README.rdoc
