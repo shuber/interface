@@ -6,6 +6,9 @@ module MockInterface end
 module Remote
   def on
   end
+
+  def off
+  end
 end
 
 class BrokenDevice
@@ -17,6 +20,10 @@ class Device < BrokenDevice
 
   def on
     @power = true
+  end
+
+  def method_missing(method, *args)
+    method == :off ? @power = false : super
   end
 end
 
@@ -34,8 +41,12 @@ class InterfaceTest < Test::Unit::TestCase
     assert_raises(NotImplementedError) { BrokenDevice.new.on }
   end
 
-  def test_should_not_raise_not_implemented_error
+  def test_should_not_raise_not_implemented_error_if_method_is_defined
     assert Device.new.on
+  end
+
+  def test_should_not_raise_not_implemented_error_if_method_is_defined_by_method_missing
+    assert !Device.new.off
   end
 
   def test_should_return_interfaces
