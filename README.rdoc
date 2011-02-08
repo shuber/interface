@@ -1,0 +1,56 @@
+= interface
+
+Implementable interfaces in ruby
+
+
+== Installation
+
+  gem install shuber-interface
+
+  require 'interface'
+
+
+== Usage
+
+Simply create a module with any methods that you'd like its implementing objects to define
+
+  module RemoteControl
+    # turns the device on
+    def on
+    end
+    
+    # turns the device off
+    def off
+    end
+  end
+
+Then use the <tt>implements</tt> method in your classes (also aliased as <tt>implement</tt> to conform with <tt>include</tt> and <tt>extend</tt> naming conventions)
+
+  class BrokenDevice
+    implements RemoteControl
+  end
+  
+  BrokenDevice.new.on # NotImplementedError: BrokenDevice needs to implement 'on' for interface RemoteControl
+  
+  class WorkingDevice < BrokenDevice
+    def on
+      @power = true
+    end
+
+    def off
+      @power = false
+    end
+  end
+  
+  WorkingDevice.new.on # true
+  
+  WorkingDevice.interfaces # [RemoteControl]
+
+
+== Note on Patches/Pull Requests
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a future version unintentionally.
+* Commit, do not mess with Rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
