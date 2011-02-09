@@ -1,7 +1,7 @@
 # Implementable interfaces in ruby
 module Interface
   autoload :Abstract, 'interface/abstract'
-  autoload :Version, 'interface/version'
+  autoload :Version,  'interface/version'
 
   # Takes a module (or multiple in reverse order), extends it with <tt>Interface::Abstract</tt>, then includes it into the current object
   #
