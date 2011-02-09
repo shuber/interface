@@ -25,6 +25,10 @@ class Device < BrokenDevice
   def method_missing(method, *args)
     method == :off ? @power = false : super
   end
+
+  def respond_to_missing?(method, include_private)
+    method.to_s == 'off'
+  end
 end
 
 class InterfaceTest < Test::Unit::TestCase
@@ -51,6 +55,22 @@ class InterfaceTest < Test::Unit::TestCase
 
   def test_should_return_interfaces
     assert_equal [Remote, MockInterface], Device.interfaces
+  end
+
+  def test_should_return_unimplemented_methods_for_interface
+    assert_equal ['off', 'on'], BrokenDevice.new.unimplemented_methods_for(Remote)
+  end
+
+  def test_should_return_empty_array_when_all_implemented
+    assert_equal [], Device.new.unimplemented_methods_for(Remote)
+  end
+
+  def test_should_return_hash_of_unimplemented_methods_with_interfaces
+    assert_equal({ Remote => ['off', 'on'] }, BrokenDevice.new.unimplemented_methods)
+  end
+
+  def test_should_return_empty_hash_when_all_interfaces_implemented
+    assert_equal Hash.new, Device.new.unimplemented_methods
   end
 
 end
