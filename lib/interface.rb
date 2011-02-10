@@ -45,10 +45,7 @@ module Interface
 
   # Returns an array of methods from the specified <tt>interface</tt> that the current object does not implement
   def unimplemented_methods_for(interface)
-    interface.instance_methods(false).reject do |method|
-      method = method.to_sym
-      (respond_to?(method, true) && self.method(method).owner != interface) || respond_to_missing?(method, true)
-    end.sort
+    interface.instance_methods(false).reject { |method| respond_to_missing?(method.to_sym, true) || self.method(method.to_sym).owner != interface }.sort
   end
 
   # <tt>Object#respond_to_missing?</tt> wasn't implemented until ruby version 1.9
