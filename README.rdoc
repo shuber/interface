@@ -42,7 +42,7 @@ Then use the <tt>implements</tt> method in your classes (also aliased as <tt>imp
     end
 
     def respond_to_missing?(method, include_private)
-      method.to_s == 'off'
+      method == :off
     end
   end
 
