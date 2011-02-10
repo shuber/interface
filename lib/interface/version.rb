@@ -3,7 +3,7 @@ module Interface
   module Version
     MAJOR = 0
     MINOR = 0
-    PATCH = 3
+    PATCH = 4
 
     # Returns a version string by joining <tt>MAJOR</tt>, <tt>MINOR</tt>, and <tt>PATCH</tt> with <tt>'.'</tt>
     #
