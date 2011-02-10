@@ -83,4 +83,8 @@ class InterfaceTest < Test::Unit::TestCase
     assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interface BrokenDevice.new, Remote }
   end
 
+  def test_should_respond_to_respond_to_missing
+    assert respond_to?(:respond_to_missing?)
+  end
+
 end

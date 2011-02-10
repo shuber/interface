@@ -47,9 +47,21 @@ module Interface
   def unimplemented_methods_for(interface)
     interface.instance_methods(false).reject do |method|
       method = method.to_sym
-      (respond_to?(method, true) && self.method(method).owner != interface) || (respond_to?(:respond_to_missing?, true) && respond_to_missing?(method, true))
+      (respond_to?(method, true) && self.method(method).owner != interface) || respond_to_missing?(method, true)
     end.sort
   end
+
+  # <tt>Object#respond_to_missing?</tt> wasn't implemented until ruby version 1.9
+  unless respond_to?(:respond_to_missing?)
+    def respond_to?(method, include_private = false) # :nodoc:
+      super || respond_to_missing?(method, include_private)
+    end
+
+    def respond_to_missing?(method, include_private = false) # :nodoc:
+      false
+    end
+  end
+
 end
 
 Object.send(:include, Interface)
