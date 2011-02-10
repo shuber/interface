@@ -7,11 +7,18 @@ module Remote
   def on
   end
 
+  def on?
+  end
+
   def off
   end
 end
 
 class BrokenDevice
+  def on?
+    !!@power
+  end
+
   implements Remote, MockInterface
 end
 
@@ -85,6 +92,11 @@ class InterfaceTest < Test::Unit::TestCase
 
   def test_should_respond_to_respond_to_missing
     assert respond_to?(:respond_to_missing?)
+  end
+
+  def test_should_call_super
+    assert !BrokenDevice.new.on?
+    assert !Device.new.on?
   end
 
 end

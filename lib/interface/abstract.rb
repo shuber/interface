@@ -5,10 +5,16 @@ module Interface
       interface.class_eval do
         instance_methods(false).each do |method|
           define_method(method) do |*args, &block|
+            methods = [:super, :method_missing]
             begin
-              method_missing(method.to_sym, *args, &block)
+              send(methods.shift, *args, &block)
             rescue NoMethodError
-              raise NotImplementedError.new("#{self.class} needs to implement '#{method}' for interface #{interface}")
+              if methods.empty?
+                raise NotImplementedError.new("#{self.class} needs to implement '#{method}' for interface #{interface}")
+              else
+                args.unshift(method.to_sym)
+                retry
+              end
             end
           end
         end
