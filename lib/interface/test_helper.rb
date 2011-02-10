@@ -1,7 +1,7 @@
 module Interface
   # Contains interface testing methods to include in your test framework
   module TestHelper
-    # Raises AssertionFailedError if <tt>object</tt> does not implement all methods from <tt>interfaces</tt>
+    # Raises <tt>AssertionFailedError</tt> if <tt>object</tt> does not implement all methods from <tt>interfaces</tt>
     #
     # <tt>interfaces</tt> defaults to <tt>object.interfaces</tt> if none are specified
     #
