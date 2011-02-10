@@ -27,7 +27,7 @@ class Device < BrokenDevice
   end
 
   def respond_to_missing?(method, include_private)
-    method == :off
+    method == :off || super
   end
 end
 

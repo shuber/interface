@@ -41,8 +41,10 @@ Then use the <tt>implements</tt> method in your classes (also aliased as <tt>imp
       method == :off ? @power = false : super
     end
 
+    # Use this whenever you have custom method_missing logic
+    # See http://www.ruby-doc.org/core/classes/Object.html#M001006
     def respond_to_missing?(method, include_private)
-      method == :off
+      method == :off || super
     end
   end
 
@@ -81,7 +83,54 @@ You can also explicitly list <tt>interfaces</tt> to test
   end
 
 
-== Note on Patches/Pull Requests
+== Why would you ever want to use this?
+
+It's useful for when you're working with libraries that have extensible APIs, like {writing custom ActiveModel compliant models}[http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/]
+
+Imagine if we defined <tt>ActiveModel</tt> with something like
+
+  module ActiveModel
+    # checks if this object has been saved
+    def new_record?
+    end
+
+    # checks if this object is valid
+    def valid?
+    end
+
+    # and the rest of the methods...
+  end
+
+We'd have a nice clear view of exactly which methods our custom implementations need to define AND one centralized place for documentation
+
+Now we can define our custom implementation
+
+  class CompliantModel
+    implements ActiveModel
+
+    def valid?
+      true
+    end
+  end
+
+Then we can easily test if we've completely implemented <tt>ActiveModel</tt> (or are missing any new methods because <tt>ActiveModel</tt> was updated)
+
+  require 'test/unit'
+
+  Test::Unit::TestCase.send(:include, Interface::TestHelper)
+
+  class CompliantModelTest < Test::Unit::TestCase
+    def test_should_implement_active_model
+      assert_implements_interface CompliantModel.new, ActiveModel # Failure: unimplemented interface methods for CompliantModel: {ActiveModel=>["new_record?"]}
+    end
+  end
+
+<tt>ActiveModel</tt> actually already has a great solution for this problem (providing a module called <tt>ActiveModel::Lint::Tests</tt> that you can include into your test cases to test compliance with the API) but it's still a good example for demonstrating this gem's usefulness
+
+You can see this gem used in {shuber/nestable}[https://github.com/shuber/nestable] which is actually why I created it
+
+
+== Patches and pull requests
 
 * Fork the project.
 * Make your feature addition or bug fix.
