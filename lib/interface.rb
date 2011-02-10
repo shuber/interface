@@ -1,7 +1,8 @@
 # Implementable interfaces in ruby
 module Interface
-  autoload :Abstract, 'interface/abstract'
-  autoload :Version,  'interface/version'
+  autoload :Abstract,   'interface/abstract'
+  autoload :TestHelper, 'interface/test_helper'
+  autoload :Version,    'interface/version'
 
   # Takes a module (or multiple in reverse order), extends it with <tt>Interface::Abstract</tt>, then includes it into the current object
   #
@@ -29,7 +30,8 @@ module Interface
 
   # Returns an array of interfaces implemented by the current object
   def interfaces
-    included_modules.select { |mod| mod.is_a?(Abstract) }
+    klass = is_a?(Class) ? self : self.class
+    klass.included_modules.select { |mod| mod.is_a?(Abstract) }
   end
 
   # Returns a hash with each partially implemented <tt>interface</tt> as keys and an array of methods 

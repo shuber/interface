@@ -40,6 +40,10 @@ Then use the <tt>implements</tt> method in your classes (also aliased as <tt>imp
     def method_missing(method, *args)
       method == :off ? @power = false : super
     end
+
+    def respond_to_missing?(method, include_private)
+      method.to_s == 'off'
+    end
   end
 
   WorkingDevice.new.on # true
@@ -47,6 +51,34 @@ Then use the <tt>implements</tt> method in your classes (also aliased as <tt>imp
 
   WorkingDevice.interfaces # [RemoteControl]
 
+
+== Testing interface implementations
+
+Include <tt>Interface::TestHelper</tt> in your test framework
+
+  Test::Unit::TestCase.send(:include, Interface::TestHelper)
+
+Then you can use <tt>assert_implements_interfaces</tt> (aliased as <tt>assert_implements_interface</tt>) in your tests
+
+  class BrokenDeviceTest < Test::Unit::TestCase
+    def test_should_implement_interfaces
+      assert_implements_interfaces BrokenDevice.new # Failure: unimplemented interface methods for BrokenDevice: {Remote=>["off", "on"]}
+    end
+  end
+
+You can also explicitly list <tt>interfaces</tt> to test
+
+  module MockInterface end
+
+  class BrokenDevice
+    implements Remote, MockInterface
+  end
+
+  class BrokenDeviceTest < Test::Unit::TestCase
+    def test_should_implement_mock_interface
+      assert_implements_interface BrokenDevice.new, MockInterface # passes
+    end
+  end
 
 == Note on Patches/Pull Requests
 

@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.files = %w(
     lib/interface.rb
     lib/interface/abstract.rb
+    lib/interface/test_helper.rb
     lib/interface/version.rb
     lib/shuber-interface.rb
     MIT-LICENSE

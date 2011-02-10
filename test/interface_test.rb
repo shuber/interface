@@ -54,7 +54,7 @@ class InterfaceTest < Test::Unit::TestCase
   end
 
   def test_should_return_interfaces
-    assert_equal [Remote, MockInterface], Device.interfaces
+    assert_all_equal [Remote, MockInterface], Device.interfaces, Device.new.interfaces
   end
 
   def test_should_return_unimplemented_methods_for_interface
@@ -71,6 +71,16 @@ class InterfaceTest < Test::Unit::TestCase
 
   def test_should_return_empty_hash_when_all_interfaces_implemented
     assert_equal Hash.new, Device.new.unimplemented_methods
+  end
+
+  def test_should_pass_assertion
+    assert_implements_interfaces Device.new
+    assert_implements_interface BrokenDevice.new, MockInterface
+  end
+
+  def test_should_fail_assertion
+    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interfaces BrokenDevice.new }
+    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interface BrokenDevice.new, Remote }
   end
 
 end
