@@ -1,5 +1,5 @@
 module Interface
-  # When extended, this module will re-define an interface's methods to raise <tt>NotImplementedError</tt> when called (unless handled by <tt>method_missing</tt>)
+  # When extended, this module will re-define an interface's methods to raise <tt>NotImplementedError</tt> when called (unless handled by <tt>super</tt> or <tt>method_missing</tt>)
   module Abstract
     def self.extended(interface) # :nodoc:
       interface.class_eval do
