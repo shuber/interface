@@ -1,10 +1,16 @@
-require 'date'
-require 'lib/interface/version'
+# -*- encoding: utf-8 -*-
 
-Gem::Specification.new do |s| 
-  s.name    = 'shuber-interface'
-  s.version = Interface::Version.string
-  s.date    = Date.today.to_s
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+
+require 'interface/version'
+require 'date'
+
+Gem::Specification.new do |s|
+  s.name     = 'shuber-interface'
+  s.version  = Interface::Version.string
+  s.date     = Date.today.to_s
+  s.platform = Gem::Platform::RUBY
 
   s.summary     = 'Implementable interfaces in ruby'
   s.description = 'Implementable interfaces in ruby'
@@ -13,26 +19,11 @@ Gem::Specification.new do |s|
   s.email    = 'shuber@huberry.com'
   s.homepage = 'http://github.com/shuber/interface'
 
-  s.has_rdoc = false
+  s.has_rdoc     = true
   s.rdoc_options = ['--line-numbers', '--inline-source', '--main', 'README.rdoc']
 
   s.require_paths = ['lib']
 
-  s.files = %w(
-    lib/interface.rb
-    lib/interface/abstract.rb
-    lib/interface/test_helper.rb
-    lib/interface/version.rb
-    lib/shuber-interface.rb
-    MIT-LICENSE
-    Rakefile
-    README.rdoc
-    test/interface_test.rb
-    test/test_helper.rb
-  )
-
-  s.test_files = %w(
-    test/interface_test.rb
-    test/test_helper.rb
-  )
+  s.files      = Dir['{bin,lib}/**/*'] + %w(MIT-LICENSE README.rdoc)
+  s.test_files = Dir['test/**/*']
 end
