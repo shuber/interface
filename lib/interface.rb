@@ -50,12 +50,12 @@ module Interface
 
   # <tt>Object#respond_to_missing?</tt> wasn't implemented until ruby version 1.9
   unless respond_to?(:respond_to_missing?)
-    def respond_to?(method, include_private = false) # :nodoc:
-      super || respond_to_missing?(method, include_private)
-    end
-
     def respond_to_missing?(method, include_private) # :nodoc:
       false
+    end
+
+    def respond_to?(method, include_private = false) # :nodoc:
+      super || respond_to_missing?(method, include_private)
     end
   end
 
