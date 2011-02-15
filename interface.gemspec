@@ -9,7 +9,7 @@ require 'date'
 Gem::Specification.new do |s|
   s.name     = 'shuber-interface'
   s.version  = Interface::Version.string
-  s.date     = Date.today.to_s
+  s.date     = Date.today
   s.platform = Gem::Platform::RUBY
 
   s.summary     = 'Implementable interfaces in ruby'
