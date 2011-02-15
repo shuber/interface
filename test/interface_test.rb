@@ -1,93 +1,76 @@
 require 'test_helper'
 
-module MockModule end
-module MockInterface end
-
-module Remote
-  def on
-  end
-
-  def on?
-  end
-
-  def off
-  end
-end
-
-class BrokenDevice
-  def on?
-    !!@power
-  end
-
-  implements Remote, MockInterface
-end
-
-class Device < BrokenDevice
-  include MockModule
-
-  def on
-    @power = true
-  end
-
-  def method_missing(method, *args)
-    method == :off ? @power = false : super
-  end
-
-  def respond_to_missing?(method, include_private)
-    method == :off || super
-  end
-end
-
 class InterfaceTest < Test::Unit::TestCase
+  def setup
+    @mock_module = mock_module = Module.new
+    @mock_interface = mock_interface = Module.new
+    @remote = remote = Module.new { attr_reader :on, :off; def on?; end }
+    @broken_device = Class.new { def on?; !!@power end; implements remote, mock_interface }
+    @device = Class.new(@broken_device) do
+      include mock_module
+
+      def on
+        @power = true
+      end
+
+      def method_missing(method, *args)
+        method == :off ? @power = false : super
+      end
+
+      def respond_to_missing?(method, include_private)
+        method == :off || super
+      end
+    end
+  end
 
   def test_should_include_interface
-    assert BrokenDevice.included_modules.include?(Remote)
+    assert @broken_device.included_modules.include?(@remote)
   end
 
   def test_interface_should_include_abstract
-    assert Remote.is_a?(Interface::Abstract)
+    assert @remote.is_a?(Interface::Abstract)
   end
 
   def test_should_raise_not_implemented_error
-    assert_raises(NotImplementedError) { BrokenDevice.new.on }
+    assert_raises(NotImplementedError) { @broken_device.new.on }
   end
 
   def test_should_not_raise_not_implemented_error_if_method_is_defined
-    assert Device.new.on
+    assert @device.new.on
   end
 
   def test_should_not_raise_not_implemented_error_if_method_is_defined_by_method_missing
-    assert !Device.new.off
+    assert !@device.new.off
   end
 
-  def test_should_return_interfaces
-    assert_all_equal [Remote, MockInterface], Device.interfaces, Device.new.interfaces
+  def test_should_only_return_interfaces
+    assert_all_equal [@remote, @mock_interface], @device.interfaces, @device.new.interfaces
   end
 
   def test_should_return_unimplemented_methods_for_interface
-    assert_equal ['off', 'on'], BrokenDevice.new.unimplemented_methods_for(Remote)
+    assert_equal ['off', 'on'], @broken_device.new.unimplemented_methods_for(@remote)
   end
 
   def test_should_return_empty_array_when_all_implemented
-    assert_equal [], Device.new.unimplemented_methods_for(Remote)
+    assert_equal [], @device.new.unimplemented_methods_for(@remote)
   end
 
   def test_should_return_hash_of_unimplemented_methods_with_interfaces
-    assert_equal({ Remote => ['off', 'on'] }, BrokenDevice.new.unimplemented_methods)
+    assert_equal({ @remote => ['off', 'on'] }, @broken_device.new.unimplemented_methods)
   end
 
   def test_should_return_empty_hash_when_all_interfaces_implemented
-    assert_equal Hash.new, Device.new.unimplemented_methods
+    assert_equal Hash.new, @device.new.unimplemented_methods
   end
 
   def test_should_pass_assertion
-    assert_implements_interfaces Device.new
-    assert_implements_interface BrokenDevice.new, MockInterface
+    assert_implements_interfaces @device.new
+    assert_implements_interface @broken_device.new, @mock_interface
   end
 
   def test_should_fail_assertion
-    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interfaces BrokenDevice.new }
-    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interface BrokenDevice.new, Remote }
+    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interfaces @broken_device.new }
+    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interface @broken_device.new, @remote }
   end
 
   def test_should_respond_to_respond_to_missing
@@ -95,8 +78,7 @@ class InterfaceTest < Test::Unit::TestCase
   end
 
   def test_should_call_super
-    assert !BrokenDevice.new.on?
-    assert !Device.new.on?
+    assert !@broken_device.new.on?
+    assert !@device.new.on?
   end
-
 end
