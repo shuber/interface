@@ -9,7 +9,7 @@ module Interface
     #
     # Example
     #
-    #   Version.string # '1.0.2'
+    #   Version.to_s # '1.0.2'
     def self.to_s
       [MAJOR, MINOR, PATCH].join('.')
     end
