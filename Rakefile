@@ -5,14 +5,14 @@ require 'rake/rdoctask'
 desc 'Default: run unit tests.'
 task :default => :test
 
-desc 'Test the interface gem.'
+desc 'Test the interface gem'
 Rake::TestTask.new(:test) do |t|
   t.libs += ['lib', 'test']
   t.pattern = 'test/**/*_test.rb'
   t.verbose = true
 end
 
-desc 'Generate documentation for the interface gem.'
+desc 'Generate documentation for the interface gem'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'interface'
