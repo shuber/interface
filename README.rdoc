@@ -130,11 +130,6 @@ Then we can easily test if we've completely implemented <tt>ActiveModel</tt> (or
 You can see this gem used in {shuber/nestable}[https://github.com/shuber/nestable] which is actually why I created it
 
 
-== Core extensions/patches
-
-* defines <tt>{Object#respond_to_missing?}[http://www.ruby-doc.org/core/classes/Object.html#M001006]</tt> and patches <tt>Object#respond_to?</tt> unless this functionality has already been implemented (ruby v1.9+)
-
-
 == Patches and pull requests
 
 * Fork the project.
