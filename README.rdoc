@@ -1,6 +1,6 @@
 = interface
 
-Implementable interfaces in ruby
+Experimental interfaces in ruby
 
 
 == Installation
