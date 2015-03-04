@@ -1,10 +1,9 @@
+require 'interface/abstract'
+require 'interface/test_helper'
 require 'interface/version'
 
 # Implementable interfaces in ruby
 module Interface
-  autoload :Abstract,   'interface/abstract'
-  autoload :TestHelper, 'interface/test_helper'
-
   # Takes a module (or multiple in reverse order), extends it with <tt>Interface::Abstract</tt>, then includes it into the current object
   #
   # Example
