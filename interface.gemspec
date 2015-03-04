@@ -1,28 +1,19 @@
-# -*- encoding: utf-8 -*-
-
-lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
-
-require 'interface/version'
-require 'date'
+require File.expand_path('../lib/interface/version', __FILE__)
 
 Gem::Specification.new do |s|
-  s.name     = 'shuber-interface'
-  s.version  = Interface::Version
-  s.date     = Date.today
-  s.platform = Gem::Platform::RUBY
+  s.author           = 'Sean Huber'
+  s.description      = 'Implementable interfaces in ruby'
+  s.email            = 'github@shuber.io'
+  s.extra_rdoc_files = %w(LICENSE)
+  s.files            = `git ls-files`.split("\n")
+  s.homepage         = 'https://github.com/shuber/interface'
+  s.license          = 'MIT'
+  s.name             = 'interface'
+  s.rdoc_options     = %w(--charset=UTF-8 --inline-source --line-numbers --main README.rdoc)
+  s.require_paths    = %w(lib)
+  s.summary          = 'Implementable interfaces in ruby'
+  s.test_files       = `git ls-files -- test/*`.split("\n")
+  s.version          = Interface::VERSION
 
-  s.summary     = 'Implementable interfaces in ruby'
-  s.description = 'Implementable interfaces in ruby'
-
-  s.author   = 'Sean Huber'
-  s.email    = 'github@shuber.io'
-  s.homepage = 'http://github.com/shuber/interface'
-
-  s.require_paths = ['lib']
-
-  s.files      = Dir['{bin,lib}/**/*'] + %w(LICENSE README.rdoc)
-  s.test_files = Dir['test/**/*']
-
-  s.add_dependency('respond_to_missing')
+  s.add_development_dependency 'codeclimate-test-reporter'
 end
