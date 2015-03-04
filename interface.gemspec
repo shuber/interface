@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.description = 'Implementable interfaces in ruby'
 
   s.author   = 'Sean Huber'
-  s.email    = 'shuber@huberry.com'
+  s.email    = 'github@shuber.io'
   s.homepage = 'http://github.com/shuber/interface'
 
   s.require_paths = ['lib']
