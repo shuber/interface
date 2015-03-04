@@ -1,0 +1,8 @@
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - ruby-head
+script: bundle exec rake
+addons:
+  code_climate:
+    repo_token: 115c7ac5bf818ec370734267a2b331549815de831e9533017962630a541f9e17
