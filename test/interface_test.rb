@@ -48,7 +48,7 @@ class InterfaceTest < Test::Unit::TestCase
   end
 
   def test_should_return_unimplemented_methods_for_interface
-    assert_equal ['off', 'on'], @broken_device.new.unimplemented_methods_for(@remote)
+    assert_equal [:off, :on], @broken_device.new.unimplemented_methods_for(@remote)
   end
 
   def test_should_return_empty_array_when_all_implemented
@@ -56,7 +56,7 @@ class InterfaceTest < Test::Unit::TestCase
   end
 
   def test_should_return_hash_of_unimplemented_methods_with_interfaces
-    assert_equal({ @remote => ['off', 'on'] }, @broken_device.new.unimplemented_methods)
+    assert_equal({ @remote => [:off, :on] }, @broken_device.new.unimplemented_methods)
   end
 
   def test_should_return_empty_hash_when_all_interfaces_implemented
@@ -69,8 +69,8 @@ class InterfaceTest < Test::Unit::TestCase
   end
 
   def test_should_fail_assertion
-    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interfaces @broken_device.new }
-    assert_raises(Test::Unit::AssertionFailedError) { assert_implements_interface @broken_device.new, @remote }
+    assert_raises(MiniTest::Assertion) { assert_implements_interfaces @broken_device.new }
+    assert_raises(MiniTest::Assertion) { assert_implements_interface @broken_device.new, @remote }
   end
 
   def test_should_call_super

@@ -47,7 +47,7 @@ module Interface
 
   # Returns an array of methods from the specified <tt>interface</tt> that the current object does not implement
   def unimplemented_methods_for(interface)
-    interface.instance_methods(false).reject { |method| respond_to_missing?(method.to_sym, true) || self.method(method.to_sym).owner != interface }.sort
+    interface.instance_methods(false).reject { |method| respond_to_missing?(method.to_sym, true) || self.method(method.to_sym).owner != interface }.sort.map(&:to_sym)
   end
 end
 
