@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    shuber-interface (0.0.4)
+      respond_to_missing
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    respond_to_missing (0.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  shuber-interface!
