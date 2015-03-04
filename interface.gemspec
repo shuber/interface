@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.version          = Interface::VERSION
 
   s.add_development_dependency 'codeclimate-test-reporter'
+  s.add_development_dependency 'rake'
 end
