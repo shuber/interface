@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.require_paths = ['lib']
 
-  s.files      = Dir['{bin,lib}/**/*'] + %w(MIT-LICENSE README.rdoc)
+  s.files      = Dir['{bin,lib}/**/*'] + %w(LICENSE README.rdoc)
   s.test_files = Dir['test/**/*']
 
   s.add_dependency('respond_to_missing')
